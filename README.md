@@ -15,8 +15,4 @@ python3  practica4.py sample_10e4.json
 
 
 ## Métodos empleados: 
-Para realizar la implementación hemos trabajado con el tipo de datos RDD de `pyspark`, en vez de hacer uso de los DataFrame, y se han utilizado los métodos `map`, `reduce`, `reduceByKey`, `groupByKey` y `join`. Hemos aprendido mucho profe, y la verdad es que hacerlo con amigos es muy divertido, aunque el puto de Pablo no ha hecho nada, como tú, 
-```
-hijo de puta.
-```
-:shipit:
+Para realizar la implementación hemos trabajado con el tipo de datos RDD de `pyspark`, en vez de hacer uso de los DataFrame, y se han utilizado los métodos `map`, `reduce`, `reduceByKey`, `groupByKey` y `join`.
