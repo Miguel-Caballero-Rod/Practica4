@@ -1,5 +1,7 @@
 # Practica4 de Programación Paralela: BiciMAD RDD
 
+#### Trabajo realizado por Manuel Pablo Bejarano Galeano, Miguel Caballero Rodríguez y Pedro Corral Ortiz-Coronado
+
 ## Descripción básica de la entrega:
 En esta práctica trabajaremos con el archivo `sample_10e4.json` que recoge la información de uso de las bicicletas BiciMAD para unos ciertos días, como por ejemplo, la estación de salida, la de llegada, el tiempo de uso, la fecha o el usuario que la utiliza. Con esta información, nos proponemos medir 3 aspectos diferentes, cuál ha sido el día con más tiempo de uso de todos, cuál es el trayecto más realizado y de entre todas las estaciones, nos gustaría saber cuál tiene el mejor y el peor balance en cuanto a número de llegadas menos el número de salidas, que denominaremos déficit. 
 
