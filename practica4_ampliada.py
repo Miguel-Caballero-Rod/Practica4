@@ -27,6 +27,12 @@ def mapper_stations(line):
     end = data['idplug_station']
     return (min(start,end), max(start,end)),1
 
+def mapper_stations_2(line):
+    data = json.loads(line)
+    start = data['idunplug_station']
+    end = data['idplug_station']
+    return [(start,1), (end,1)]
+
 def mapper_user_day_code(line):
     data = json.loads(line)
     user_code = data['user_day_code']
@@ -71,6 +77,13 @@ def main(data):
         route_max=rdd_stations.reduce(takeMax)
         print("La ruta más usada conecta las estaciones",route_max[0][0],"y",\
               route_max[0][1], "y se ha realizado", route_max[1],"veces")
+            
+        # CALCULAR LA ESTACION QUE MAS SE USA TENIENDO EN CUENTA TANTO LAS 
+        #SALIDAS COMO LAS ENTRADAS
+        rdd_stations_2=rdd_base.flatMap(mapper_stations_2).reduceByKey(lambda x,y: x+y)
+        station_max=rdd_stations_2.reduce(takeMax)
+        print("La estación más utilizada es la estación:",station_max[0],
+              "y se ha usado", station_max[1],"veces")
         
             
         #CALCULAR EL MAXIMO DE USOS DE UN MISMO USUARIO EN UN MISMO DIA
