@@ -19,3 +19,4 @@ Para realizar la implementación hemos trabajado con el tipo de datos RDD de `py
 ```
 hijo de puta.
 ```
+:shipit:
