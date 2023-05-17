@@ -1,5 +1,4 @@
 from pyspark import SparkContext
-# from pyspark.sql import SparkSession
 import json
 import sys
 import datetime
@@ -9,15 +8,37 @@ def mapper_date_time(line):
     data = json.loads(line)
     time = data['travel_time']
     date_total = datetime.datetime.fromisoformat(data['unplug_hourTime']["$date"][:-5])
-    date=(date_total.day,date_total.month,date_total.year)
+    date=f"{date_total.day}/{date_total.month}/{date_total.year}"
     return date,time
 
+def mapper_user_type(line):
+    data = json.loads(line)
+    user_type = data['user_type']
+    return user_type,1
+
+def mapper_user_age(line):
+    data = json.loads(line)
+    user_age = data['ageRange']
+    return user_age,1
 
 def mapper_stations(line):
     data = json.loads(line)
     start = data['idunplug_station']
     end = data['idplug_station']
     return (min(start,end), max(start,end)),1
+
+def mapper_stations_2(line):
+    data = json.loads(line)
+    start = data['idunplug_station']
+    end = data['idplug_station']
+    return [(start,1), (end,1)]
+
+def mapper_user_day_code(line):
+    data = json.loads(line)
+    user_code = data['user_day_code']
+    date_total = datetime.datetime.fromisoformat(data['unplug_hourTime']["$date"][:-5])
+    date=f"{date_total.day}/{date_total.month}/{date_total.year}"
+    return (user_code, date), 1
 
 
 def mapper_start_end(line):
@@ -40,9 +61,8 @@ def takeMin(x,y):
 
 def main(data):
     with SparkContext() as sc:
-        # spark = SparkSession.builder.getOrCreate()
-        rdd_base = sc.textFile(data)        
-        
+        rdd_base = sc.textFile(data)
+                
         # CALCULAR QUÉ DÍA HA HABIDO MÁS TIEMPO DE USO
         rdd_dt=rdd_base.map(mapper_date_time).groupByKey().map(lambda x: (x[0],sum(x[1])))
         day_max=rdd_dt.reduce(takeMax)
@@ -57,7 +77,39 @@ def main(data):
         route_max=rdd_stations.reduce(takeMax)
         print("La ruta más usada conecta las estaciones",route_max[0][0],"y",\
               route_max[0][1], "y se ha realizado", route_max[1],"veces")
+            
+        # CALCULAR LA ESTACION QUE MAS SE USA TENIENDO EN CUENTA TANTO LAS 
+        #SALIDAS COMO LAS ENTRADAS
+        rdd_stations_2=rdd_base.flatMap(mapper_stations_2).reduceByKey(lambda x,y: x+y)
+        station_max=rdd_stations_2.reduce(takeMax)
+        print("La estación más utilizada es la estación:",station_max[0],
+              "y se ha usado", station_max[1],"veces")
         
+            
+        #CALCULAR EL MAXIMO DE USOS DE UN MISMO USUARIO EN UN MISMO DIA
+        rdd_user_code=rdd_base.map(mapper_user_day_code).reduceByKey(lambda x,y: x+y)
+        user_max=rdd_user_code.reduce(takeMax)
+        print("El dia ",user_max[0][1],"el usuario", user_max[0][0],
+               "ha realizado", user_max[1],"viajes, y es el dia que un mismo",
+               "usuario ha cogido más veces la bicicleta")
+        
+        #CALCULAR EL TIPO DE USUARIO QUE MÁS/MENOS HA USADO LA BICICLETA EN GENERAL
+        rdd_user_type=rdd_base.map(mapper_user_type).reduceByKey(lambda x,y: x+y)
+        type_max=rdd_user_type.reduce(takeMax)
+        print("El tipo de usuario que más ha usado la bicicleta ha sido:",type_max[0],
+              "y la ha usado un total de", type_max[1], "veces")
+        type_min=rdd_user_type.reduce(takeMin)
+        print("El tipo de usuario que menos ha usado la bicicleta ha sido:",type_min[0],
+              "y la ha usado un total de", type_min[1], "veces")
+        
+        #CALCULAR EL RANGO DE EDAD DE USUARIO QUE MÁS/MENOS HA USADO LA BICICLETA EN GENERAL
+        rdd_user_age=rdd_base.map(mapper_user_age).reduceByKey(lambda x,y: x+y)
+        age_max=rdd_user_age.reduce(takeMax)
+        print("El rango de edad de los usuarios que más ha usado la bicicleta ha sido:",age_max[0],
+              "y la ha usado un total de", age_max[1], "veces")
+        age_min=rdd_user_age.reduce(takeMin)
+        print("El rango de edad de los usuarios que menos ha usado la bicicleta ha sido:",age_min[0],
+              "y la ha usado un total de", age_min[1], "veces")
         
         
         # CALCULAR ESTACIÓN MÁS DEFICITARIA
@@ -74,16 +126,9 @@ def main(data):
         print("La estación menos deficitaria es la", less_defficient_station[0][0], "con un total de",
         less_defficient_station[0][1][0], "llegadas y", -less_defficient_station[0][1][1],"salidas,",
         "por tanto tiene un deficit de", less_defficient_station[1])
-
-        
-        
-        
-
-            
     
 if __name__=='__main__':
     if len(sys.argv)>1:
         data = sys.argv[1]
     main(data)
-
 
