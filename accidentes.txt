@@ -1,0 +1,4 @@
+El tipo de accidente más común ha sido COLISI�N DOBLE que ha ocurrido 210 veces
+la condición meteorológica en la que ha tenido lugar el mayor número de accidentes ha sido Seco en la que ha ocurrido un total de  425 veces
+la condición del suelo en la que ha tenido lugar el mayor número de accidentes ha sido Seca Y Limpia en la que ha ocurrido un total de  403 veces
+La media ponderada de victimas por accidente es 1.1444201312910285

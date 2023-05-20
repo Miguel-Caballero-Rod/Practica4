@@ -1,0 +1,10 @@
+El día con más tiempo de uso ha sido 6/8/2017 con un uso total de 182300 unidades de tiempo
+La ruta más usada conecta las estaciones 49 y 135 y se ha realizado 16 veces
+La estación más utilizada es la estación: 57 y se ha usado 294 veces
+El dia  21/4/2018 el usuario 1e0aaf39bf469176476359c870206de19a3d47e370367f4c4f8e7ee5070e3490 ha realizado 3 viajes, y es el dia que un mismo usuario ha cogido más veces la bicicleta
+El tipo de usuario que más ha usado la bicicleta ha sido: 1 y la ha usado un total de 8755 veces
+El tipo de usuario que menos ha usado la bicicleta ha sido: 2 y la ha usado un total de 119 veces
+El rango de edad de los usuarios que más ha usado la bicicleta ha sido: 4 y la ha usado un total de 4028 veces
+El rango de edad de los usuarios que menos ha usado la bicicleta ha sido: 6 y la ha usado un total de 39 veces
+La estación más deficitaria; i.e., en la que la diferencia entre el número de llegadas menos el número de salidas es menor es la 108 con un total de 75 llegadas y 100 salidas, por tanto tiene un deficit de -25
+La estación menos deficitaria es la 135 con un total de 160 llegadas y 125 salidas, por tanto tiene un deficit de 35
