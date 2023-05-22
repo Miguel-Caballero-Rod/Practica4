@@ -24,5 +24,9 @@ Para la segunda parte, el programa a ejecutar es `accidentes.py` y para realizar
 python3  accidentes.py AccidentesBicicletas_2018.csv
 ```
 
+## Resultados: 
+
+Los resultados del primer script se  encuentran recogidos en el documento `practica4.txt` y para el segundo script los resultados se pueden encontrar en el documento `accidentes.txt`.
+
 ## Métodos empleados: 
 Para realizar la implementación hemos trabajado con el tipo de datos RDD de `pyspark`, en vez de hacer uso de los DataFrame, y se han utilizado los métodos `map`, `reduce`, `reduceByKey`, `groupByKey`, `flatMap` y `join`.
