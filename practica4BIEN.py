@@ -69,8 +69,12 @@ def main(fileNames):
         # PARA CONSEGUIR QUE SE JUNTEN LOS DIFERENTES ARCHIVOS .json DEBERÍA FUNCIONAR:
         rdd_base=sc.emptyRDD()
         for data in fileNames:
+            print(data)
             rdd_aux = sc.textFile(data)
-            rdd_base=rdd_base.join(rdd_aux)    
+            if rdd_base.count()>0:
+            	rdd_base = rdd_base.fullOuterJoin(rdd_aux)
+            else:
+            	rdd_base = rdd_aux
         
         
         """
